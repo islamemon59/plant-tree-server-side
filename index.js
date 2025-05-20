@@ -26,6 +26,20 @@ async function run() {
     const plantCollection = client.db("plantDataBase").collection("plant");
 
 
+    //Get Full data from database
+    app.get("/plants", async (req, res) => {
+      const result = plantCollection.find().toArray()
+      res.send(result)
+    })
+
+    //Post new plant in database
+    app.post("/plants", async (req, res) => {
+      const newPlant = req.body
+      const result = plantCollection.insertOne(newPlant)
+      res.send(result)
+    })
+
+
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

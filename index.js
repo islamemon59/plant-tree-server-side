@@ -32,6 +32,13 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/plant/:email", async (req, res) => {
+      const email = req.params.email
+      const filter = {email: email}
+      const result = await plantCollection.find(filter).toArray()
+      res.send(result)
+    })
+
     //Get Full data from database
     app.get("/plants", async (req, res) => {
       const result = await plantCollection.find().toArray();

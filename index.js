@@ -1,5 +1,5 @@
 const express = require('express')
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config()
 const app = express()
@@ -22,20 +22,28 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-
     const plantCollection = client.db("plantDataBase").collection("plant");
 
+    //Get single data from database
+    app.get("/plants/:id", async (req, res) => {
+      const id = req.params.id
+      console.log(id);
+      const query = {_id: new ObjectId(id)}
+      const result = await plantCollection.findOne(query)
+      res.send(result)
+    })
 
     //Get Full data from database
     app.get("/plants", async (req, res) => {
-      const result = plantCollection.find().toArray()
+      const result = await plantCollection.find().toArray()
       res.send(result)
     })
 
     //Post new plant in database
     app.post("/plants", async (req, res) => {
       const newPlant = req.body
-      const result = plantCollection.insertOne(newPlant)
+      console.log(newPlant);
+      const result = await plantCollection.insertOne(newPlant)
       res.send(result)
     })
 

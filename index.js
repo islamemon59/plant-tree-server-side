@@ -46,6 +46,18 @@ async function run() {
       res.send(result);
     });
 
+    //Update plant data in database
+    app.put("/plants/:id", async (req, res) => {
+      const id = req.params.id
+      const updatedData = req.body
+      const filter = {_id: new ObjectId(id)}
+      const updateDoc = {
+        $set: updatedData
+      }
+      const result = await plantCollection.updateOne(filter, updateDoc)
+      res.send(result)
+    })
+
     //Delete plant data from database
     app.delete("/plants/:id", async (req, res) => {
       const id = req.params.id;

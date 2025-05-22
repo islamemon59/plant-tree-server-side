@@ -39,6 +39,24 @@ async function run() {
       res.send(result)
     })
 
+    app.get("/plant", async (req, res) => {
+      const result = await plantCollection.find().sort({_id: -1}).limit(6).toArray()
+      res.send(result)
+    })
+
+    app.get("/easy", async (req, res) => {
+      const result = await plantCollection.find({careLevel: "Easy"}).toArray()
+      res.send(result)
+    })
+    app.get("/moderate", async (req, res) => {
+      const result = await plantCollection.find({careLevel: "Moderate"}).toArray()
+      res.send(result)
+    })
+    app.get("/difficult", async (req, res) => {
+      const result = await plantCollection.find({careLevel: "Difficult"}).toArray()
+      res.send(result)
+    })
+
     //Get Full data from database
     app.get("/plants", async (req, res) => {
       const result = await plantCollection.find().toArray();

@@ -20,7 +20,6 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
     const plantCollection = client.db("plantDataBase").collection("plant");
 
     //Get single data from database

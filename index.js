@@ -22,7 +22,7 @@ async function run() {
   try {
     const plantCollection = client.db("plantDataBase").collection("plant");
 
-    //Get single data from database 
+    //Get single data from database
     app.get("/plants/:id", async (req, res) => {
       const id = req.params.id;
       console.log(id);
@@ -32,29 +32,39 @@ async function run() {
     });
 
     app.get("/plant/:email", async (req, res) => {
-      const email = req.params.email
-      const filter = {email: email}
-      const result = await plantCollection.find(filter).toArray()
-      res.send(result)
-    })
+      const email = req.params.email;
+      const filter = { email: email };
+      const result = await plantCollection.find(filter).toArray();
+      res.send(result);
+    });
 
     app.get("/plant", async (req, res) => {
-      const result = await plantCollection.find().sort({_id: -1}).limit(8).toArray()
-      res.send(result)
-    })
+      const result = await plantCollection
+        .find()
+        .sort({ _id: -1 })
+        .limit(8)
+        .toArray();
+      res.send(result);
+    });
 
     app.get("/easy", async (req, res) => {
-      const result = await plantCollection.find({careLevel: "Easy"}).toArray()
-      res.send(result)
-    })
+      const result = await plantCollection
+        .find({ careLevel: "Easy" })
+        .toArray();
+      res.send(result);
+    });
     app.get("/moderate", async (req, res) => {
-      const result = await plantCollection.find({careLevel: "Moderate"}).toArray()
-      res.send(result)
-    })
+      const result = await plantCollection
+        .find({ careLevel: "Moderate" })
+        .toArray();
+      res.send(result);
+    });
     app.get("/difficult", async (req, res) => {
-      const result = await plantCollection.find({careLevel: "Difficult"}).toArray()
-      res.send(result)
-    })
+      const result = await plantCollection
+        .find({ careLevel: "Difficult" })
+        .toArray();
+      res.send(result);
+    });
 
     //Get Full data from database
     app.get("/plants", async (req, res) => {
@@ -72,23 +82,23 @@ async function run() {
 
     //Update plant data in database
     app.put("/plants/:id", async (req, res) => {
-      const id = req.params.id
-      const updatedData = req.body
-      const filter = {_id: new ObjectId(id)}
+      const id = req.params.id;
+      const updatedData = req.body;
+      const filter = { _id: new ObjectId(id) };
       const updateDoc = {
-        $set: updatedData
-      }
-      const result = await plantCollection.updateOne(filter, updateDoc)
-      res.send(result)
-    })
+        $set: updatedData,
+      };
+      const result = await plantCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
 
     //Delete plant data from database
     app.delete("/plants/:id", async (req, res) => {
       const id = req.params.id;
-      const query = {_id: new ObjectId(id)}
-      const result = await plantCollection.deleteOne(query)
-      res.send(result)
-    })
+      const query = { _id: new ObjectId(id) };
+      const result = await plantCollection.deleteOne(query);
+      res.send(result);
+    });
 
     await client.db("admin").command({ ping: 1 });
     console.log(

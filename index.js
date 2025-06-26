@@ -39,7 +39,7 @@ async function run() {
     })
 
     app.get("/plant", async (req, res) => {
-      const result = await plantCollection.find().sort({_id: -1}).limit(6).toArray()
+      const result = await plantCollection.find().sort({_id: -1}).limit(8).toArray()
       res.send(result)
     })
 
